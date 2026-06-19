@@ -1,0 +1,13 @@
+# 智能座舱街景理解系统依赖
+torch>=2.1.0
+torchvision>=0.16.0
+opencv-python>=4.9.0
+numpy>=1.24.0
+Pillow>=10.0.0
+gradio>=4.44.0
+pyyaml>=6.0
+mediapipe>=0.10.14
+dlib>=19.24.0
+setuptools>=65.0.0
+transformers>=4.45.0
+accelerate>=0.34.0

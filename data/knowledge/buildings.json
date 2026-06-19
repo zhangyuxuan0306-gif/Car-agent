@@ -1,0 +1,91 @@
+[
+  {
+    "name": "中国尊",
+    "aliases": ["中信大厦"],
+    "city": "北京",
+    "type": "超高层",
+    "location": "北京CBD核心区",
+    "architect": "北京市建筑设计研究院、KPF",
+    "designer": "吴晨",
+    "built_year": 2018,
+    "height_m": 528,
+    "function": "办公、酒店",
+    "style": "尊形造型，灵感来自古代礼器「尊」",
+    "description": "北京第一高楼，高528米，尊形地标，集高端办公与酒店于一体，是CBD天际线核心。"
+  },
+  {
+    "name": "中央电视台总部大楼",
+    "aliases": ["央视大楼", "大裤衩"],
+    "city": "北京",
+    "type": "传媒建筑",
+    "location": "北京CBD东三环",
+    "architect": "雷姆·库哈斯（OMA）",
+    "designer": "雷姆·库哈斯",
+    "built_year": 2012,
+    "height_m": 234,
+    "function": "中央电视台总部办公与节目制作",
+    "style": "双塔连体、不规则几何造型",
+    "description": "由库哈斯设计，独特双塔连体造型，俗称「大裤衩」，是世界著名传媒总部地标。"
+  },
+  {
+    "name": "中央公园广场",
+    "aliases": [],
+    "city": "北京",
+    "type": "综合体",
+    "location": "北京CBD，毗邻朝阳公园",
+    "architect": "多位国际建筑师联合设计",
+    "built_year": 2017,
+    "function": "办公、商业",
+    "style": "现代高层群组",
+    "description": "CBD核心区现代高层综合体，与朝阳公园相邻，是商务区重要办公商业集群。"
+  },
+  {
+    "name": "世界华商中心",
+    "aliases": [],
+    "city": "北京",
+    "type": "办公楼",
+    "location": "北京CBD",
+    "function": "华商商务办公",
+    "style": "现代商务塔楼",
+    "description": "面向华商群体的商务地标，体现现代办公建筑特色，服务国际华商社群。"
+  },
+  {
+    "name": "国贸三期B座",
+    "aliases": ["国贸B座"],
+    "city": "北京",
+    "type": "超高层",
+    "location": "北京国贸商圈",
+    "architect": "国贸三期设计团队",
+    "built_year": 2010,
+    "height_m": 296,
+    "function": "高端办公",
+    "style": "现代玻璃幕墙超高层",
+    "description": "中国国际贸易中心三期B座，高296米，与国贸商圈共同构成北京核心商务地标群。"
+  },
+  {
+    "name": "国贸三期A座",
+    "aliases": ["国贸A座", "国贸大厦A座"],
+    "city": "北京",
+    "type": "超高层",
+    "location": "北京国贸商圈",
+    "architect": "国贸三期设计团队",
+    "built_year": 2010,
+    "height_m": 330,
+    "function": "高端办公、酒店",
+    "style": "现代超高层地标",
+    "description": "国贸三期标志性塔楼，高330米，承载高端办公与酒店功能，是国贸天际线主角。"
+  },
+  {
+    "name": "三星大厦",
+    "aliases": [],
+    "city": "北京",
+    "type": "办公楼",
+    "location": "北京CBD",
+    "architect": "三星与本土设计团队合作",
+    "built_year": 2018,
+    "height_m": 260,
+    "function": "三星中国总部办公",
+    "style": "现代玻璃幕墙",
+    "description": "三星集团中国区总部所在地，玻璃幕墙造型融入CBD天际线，体现科技企业总部形象。"
+  }
+]
