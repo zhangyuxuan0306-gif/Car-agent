@@ -1,0 +1,14 @@
+{
+  "cases": [
+    {"building": "中国尊", "question": "多高", "keywords": ["528", "米"]},
+    {"building": "中国尊", "question": "谁设计的", "keywords": ["吴晨", "设计"]},
+    {"building": "中国尊", "question": "什么时候建成的", "keywords": ["2018", "年"]},
+    {"building": "中国尊", "question": "在哪", "keywords": ["CBD", "北京"]},
+    {"building": "中央电视台总部大楼", "question": "谁设计的", "keywords": ["库哈斯", "设计"]},
+    {"building": "中央电视台总部大楼", "question": "什么功能", "keywords": ["央视", "传媒"]},
+    {"building": "国贸三期A座", "question": "多高", "keywords": ["330", "米"]},
+    {"building": "国贸三期B座", "question": "多高", "keywords": ["296", "米"]},
+    {"building": "三星大厦", "question": "是什么", "keywords": ["三星", "总部"]},
+    {"building": "中央公园广场", "question": "在哪", "keywords": ["CBD", "朝阳"]}
+  ]
+}

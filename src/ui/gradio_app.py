@@ -16,10 +16,20 @@ if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
 from src.pipeline import CockpitScenePipeline
+from src.agents.master import MultiAgentOrchestrator
 
 logger = logging.getLogger(__name__)
 
 _pipeline: CockpitScenePipeline = None
+_orchestrator: MultiAgentOrchestrator = None
+
+
+def get_orchestrator() -> MultiAgentOrchestrator:
+    global _orchestrator
+    if _orchestrator is None:
+        config_path = os.path.join(ROOT, "config.yaml")
+        _orchestrator = MultiAgentOrchestrator(config_path)
+    return _orchestrator
 
 
 def get_pipeline() -> CockpitScenePipeline:
@@ -124,6 +134,27 @@ def chat(question: str, history: list, progress=gr.Progress()):
     return history, ""
 
 
+def run_multi_agent(image: np.ndarray, click_x: float = 0.5, click_y: float = 0.4):
+    """多智能体五阶段协作：Vision∥ → RAG → Writer → Critic"""
+    if image is None:
+        return None, "请上传街景图片", "", ""
+
+    frame = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
+    h, w = frame.shape[:2]
+    px, py = int(click_x * w), int(click_y * h)
+
+    orch = get_orchestrator()
+    orch.dashboard.clear()
+    output, vis = orch.run(frame, px, py)
+
+    vis_rgb = cv2.cvtColor(vis, cv2.COLOR_BGR2RGB)
+    dashboard = orch.dashboard.render()
+    script = output.script
+    handover = output.payload.to_json()
+
+    return vis_rgb, dashboard, script, handover
+
+
 def load_vlm_model():
     """初始化知识服务"""
     pipeline = get_pipeline()
@@ -165,10 +196,36 @@ def create_app() -> gr.Blocks:
                 status_text = gr.Textbox(label="感知状态", lines=12, elem_classes=["status-box"])
 
         gr.Markdown("---")
+        gr.Markdown(
+            "### 🤖 多智能体协作导游（Vision∥ → RAG → Writer → Critic）\n"
+            "满足大作业要求：**相同角色并行** + **异构角色协作** + **主终端实时看板**"
+        )
+
+        with gr.Row():
+            with gr.Column():
+                agent_click_x = gr.Slider(0, 1, value=0.5, label="车窗点击 X")
+                agent_click_y = gr.Slider(0, 1, value=0.4, label="车窗点击 Y")
+                btn_agent = gr.Button("🚀 启动多智能体流水线", variant="primary", size="lg")
+            with gr.Column():
+                agent_vis = gr.Image(label="高亮标注 + 导游词预览")
+                agent_dashboard = gr.Textbox(
+                    label="主终端看板（实时状态）", lines=14, elem_classes=["status-box"]
+                )
+
+        with gr.Row():
+            agent_script = gr.Textbox(label="最终导游播报词", lines=5)
+            agent_json = gr.Textbox(label="Agent 交接 JSON", lines=10, elem_classes=["status-box"])
+
+        btn_agent.click(
+            run_multi_agent,
+            inputs=[input_image, agent_click_x, agent_click_y],
+            outputs=[agent_vis, agent_dashboard, agent_script, agent_json],
+        )
+
+        gr.Markdown("---")
         gr.Markdown("### 🏛️ 建筑目标分析与语义生成")
 
         with gr.Row():
-            btn_analyze = gr.Button("🏗️ 分析关注建筑并生成介绍", variant="primary", size="lg")
 
         with gr.Row():
             with gr.Column():

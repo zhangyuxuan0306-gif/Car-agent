@@ -18,8 +18,8 @@ logger = logging.getLogger(__name__)
 
 def main():
     parser = argparse.ArgumentParser(description="智能座舱街景理解系统")
-    parser.add_argument("--mode", choices=["ui", "demo", "image", "video"], default="ui",
-                        help="运行模式: ui=Web界面, demo=命令行演示, image=单图, video=车窗外景视频")
+    parser.add_argument("--mode", choices=["ui", "demo", "image", "video", "agent", "exp"], default="ui",
+                        help="运行模式: agent=多智能体可点击视频, ui=Web界面, video=单Agent视频, demo=命令行演示, image=单图, exp=实验")
     parser.add_argument("--video", type=str, default=None, help="窗外景视频路径")
     parser.add_argument("--image", type=str, default=None, help="输入图片路径")
     parser.add_argument("--host", type=str, default="0.0.0.0")
@@ -43,6 +43,13 @@ def main():
 
     elif args.mode == "video":
         run_video_demo(args.video)
+
+    elif args.mode == "agent":
+        run_agent_demo(args.image, args.video)
+
+    elif args.mode == "exp":
+        from experiments.run_all import main as run_experiments
+        run_experiments()
 
 
 def run_demo():
@@ -126,6 +133,59 @@ def run_image_analysis(image_path: str):
     print(f"\n=== 识别 ===\n{identification}")
     print(f"\n=== 介绍 ===\n{description}")
     pipeline.cleanup()
+
+
+def run_agent_demo(image_path: str = None, video_path: str = None):
+    """多智能体协作演示 — 默认可交互视频，--image 时单帧分析"""
+    import yaml
+
+    if image_path and not video_path:
+        _run_agent_single_image(image_path)
+        return
+
+    config_path = os.path.join(ROOT, "config.yaml")
+    with open(config_path, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+    if video_path:
+        config.setdefault("video", {})["path"] = video_path
+
+    from src.video.cockpit_agent_video import CockpitAgentVideoDemo
+    CockpitAgentVideoDemo(config).run()
+
+
+def _run_agent_single_image(image_path: str):
+    """单图多智能体分析（非交互）"""
+    import cv2
+    from src.agents.master import MultiAgentOrchestrator
+
+    config_path = os.path.join(ROOT, "config.yaml")
+    orchestrator = MultiAgentOrchestrator(
+        config_path,
+        on_dashboard_update=lambda text: print(f"\n--- 看板 ---\n{text}\n"),
+    )
+
+    frame = cv2.imread(image_path)
+    if frame is None:
+        logger.error("无法读取: %s", image_path)
+        sys.exit(1)
+
+    h, w = frame.shape[:2]
+    click_x, click_y = w // 2, h // 2
+
+    logger.info("=== 多智能体协作（单图）===")
+    output, vis = orchestrator.run(frame, click_x, click_y)
+
+    print("\n" + "=" * 60)
+    print("【最终导游播报词】")
+    print(output.script)
+    print("\n【识别建筑】", "、".join(output.buildings))
+    print("=" * 60)
+
+    out_dir = os.path.join(ROOT, "data", "demo")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "agent_output.jpg")
+    cv2.imwrite(out_path, vis)
+    logger.info("可视化结果: %s", out_path)
 
 
 def download_demo_image(demo_dir: str):

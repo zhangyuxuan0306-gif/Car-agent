@@ -24,7 +24,7 @@ if ROOT not in sys.path:
 from src.multimodal.building_brief import BuildingBriefService
 from src.multimodal.knowledge_base import BuildingKnowledgeBase
 from src.multimodal.llm_synthesizer import LLMAnswerSynthesizer
-from src.multimodal.web_knowledge import WebKnowledgeSearcher
+from src.multimodal.web_knowledge import web_searcher_from_config
 from src.perception.custom_yolo_detector import CustomYoloDetector, YoloDetection
 
 logger = logging.getLogger(__name__)
@@ -79,8 +79,8 @@ class CockpitVideoDemo:
         qa_cfg = config.get("qa", {})
         offline_qa = qa_cfg.get("offline", True)
         use_llm = qa_cfg.get("use_llm", False)
-        use_web = kb_cfg.get("web_search", False) and not offline_qa
-        web = WebKnowledgeSearcher() if use_web else None
+        use_web = kb_cfg.get("web_search", False)
+        web = web_searcher_from_config(kb_cfg)
         synthesizer = None
         if use_llm:
             synthesizer = LLMAnswerSynthesizer(
@@ -244,18 +244,16 @@ class CockpitVideoDemo:
             cv2.circle(vis, (cx, cy), 12, (0, 0, 255), -1)
             cv2.circle(vis, (cx, cy), 18, (255, 255, 255), 2)
 
-        # 名称 + 短简介（问答长文只在终端显示，避免画面卡顿）
+        # 名称 + 简介；有问答时问答文案替换简介（非追加）
         if self.track.name:
-            text = self.track.name
-            if self.track.description:
-                text = f"{self.track.name}\n{self.track.description}"
             if self._qa_busy and self._qa_status:
-                text += f"\n{self._qa_status}"
+                text = f"{self.track.name}\n{self._qa_status}"
             elif self.track.qa_answer:
-                # 显示问答摘要（首行）
-                first_line = self.track.qa_answer.split("。")[0][:40]
-                if first_line:
-                    text += f"\n{first_line}…"
+                text = f"{self.track.name}\n{self.track.qa_answer}"
+            elif self.track.description:
+                text = f"{self.track.name}\n{self.track.description}"
+            else:
+                text = self.track.name
             tx = min(x2 + 8, w - 320)
             ty = max(y1, 10)
             vis = self._draw_text(vis, text, (tx, ty))
@@ -419,7 +417,13 @@ class CockpitVideoDemo:
 
         print("正在加载 YOLO 模型...")
         self.detector._load()
-        print("YOLO 就绪。问答模式：纯本地知识库，不联网。\n")
+        print("YOLO 就绪。", end="")
+        if self.brief.use_web:
+            print("问答：本地优先 + 联网补全。\n")
+        elif self.brief.offline_qa:
+            print("问答：纯本地知识库。\n")
+        else:
+            print("问答：联网 + 大模型。\n")
 
         while True:
             t0 = time.time()

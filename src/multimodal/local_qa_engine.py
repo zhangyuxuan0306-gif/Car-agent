@@ -20,6 +20,7 @@ _INTENTS: List[Tuple[tuple, tuple]] = [
     (("在哪", "哪里", "位置", "地址"), ("location", "city", "description")),
     (("干什么", "用途", "功能", "做什么", "干嘛"), ("function", "type", "description")),
     (("风格", "造型", "外观", "特点", "特色"), ("style", "description")),
+    (("外墙", "玻璃", "幕墙", "外立面", "立面", "材料", "表面"), ("style", "description")),
     (("是什么", "介绍", "简介", "讲讲"), ("description", "type", "function")),
 ]
 
@@ -110,6 +111,25 @@ class LocalQAEngine:
             return f"{entry.name}：" + "，".join(dict.fromkeys(snippets)) + "。"
         return self._compose(entry, ("description", "function", "style"), q)
 
+    def _facade_answer(self, entry: KnowledgeEntry, question: str) -> str:
+        """外墙/玻璃/幕墙类问句 — 优先本地结构化字段作答"""
+        q = question.strip()
+        if not any(k in q for k in ("外墙", "玻璃", "幕墙", "外立面", "立面", "材料")):
+            return ""
+        style = self._field_text(entry, "style")
+        desc = entry.description or ""
+        facade_hint = style if any(w in style for w in ("玻璃", "幕墙")) else desc
+        if not any(w in facade_hint for w in ("玻璃", "幕墙")):
+            return ""
+
+        yes_no = any(w in q for w in ("吗", "是不是", "是否", "全是", "都是", "全部"))
+        if yes_no:
+            return (
+                f"{entry.name}：外立面以玻璃幕墙为主体（{style.rstrip('。')}），"
+                f"但并非整栋楼每一面都 100% 纯玻璃覆盖，部分基座与结构区域仍有金属或石材包覆。"
+            )
+        return f"{entry.name}：{style.rstrip('。')}，{desc.split('，')[0]}。"
+
     def answer(
         self,
         building: str,
@@ -129,6 +149,12 @@ class LocalQAEngine:
 
         if on_progress:
             on_progress(0.55, "匹配问题意图")
+
+        facade_ans = self._facade_answer(entry, question)
+        if facade_ans:
+            if on_progress:
+                on_progress(1.0, "完成")
+            return facade_ans
 
         intent_fields = self._match_intent(question)
         if intent_fields:

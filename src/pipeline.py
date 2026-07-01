@@ -17,7 +17,7 @@ from src.interaction.qa_engine import QAEngine
 from src.multimodal.building_brief import BuildingBriefService
 from src.multimodal.knowledge_base import BuildingKnowledgeBase
 from src.multimodal.llm_synthesizer import LLMAnswerSynthesizer
-from src.multimodal.web_knowledge import WebKnowledgeSearcher
+from src.multimodal.web_knowledge import web_searcher_from_config
 from src.perception.custom_yolo_detector import CustomYoloDetector
 from src.perception.gaze_tracker import GazeTracker, GazeResult
 from src.perception.gesture_recognizer import GestureRecognizer, GestureResult, GestureType, HandResult
@@ -91,13 +91,13 @@ class CockpitScenePipeline:
         qa_cfg = self.config.get("qa", {})
         offline_qa = qa_cfg.get("offline", True)
         use_llm = qa_cfg.get("use_llm", False)
-        use_web = kb_cfg.get("web_search", False) and not offline_qa
+        use_web = kb_cfg.get("web_search", False)
         self.knowledge = BuildingKnowledgeBase(
             db_path=os.path.join(root, kb_cfg["db_path"])
             if not os.path.isabs(kb_cfg["db_path"])
             else kb_cfg["db_path"],
         )
-        self.web_search = WebKnowledgeSearcher() if use_web else None
+        self.web_search = web_searcher_from_config(kb_cfg)
         llm_cfg = self.config.get("llm", {})
         device = self.config.get("system", {}).get("device", "cuda")
         if device == "cuda":
@@ -132,7 +132,9 @@ class CockpitScenePipeline:
                 return "✅ 大模型后台加载中"
             except Exception as e:
                 return f"⚠️ 大模型加载失败（{e}）"
-        return "✅ 纯本地问答已就绪（不联网，毫秒级响应）"
+        if self.brief.use_web:
+            return "✅ 本地问答 + 联网补全已就绪"
+        return "✅ 纯本地问答已就绪（毫秒级响应）"
 
     def process_frame(
         self,

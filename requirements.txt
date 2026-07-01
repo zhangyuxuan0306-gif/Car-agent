@@ -11,3 +11,4 @@ dlib>=19.24.0
 setuptools>=65.0.0
 transformers>=4.45.0
 accelerate>=0.34.0
+rich>=13.7.0
