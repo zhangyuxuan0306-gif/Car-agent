@@ -1,10 +1,6 @@
-
-
-
-
 # 智能座舱后台静默感知多智能体系统
 本系统针对未来智能座舱的复杂交互场景，构建了**基于大模型的多智能体（Multi-Agent）分布式感知与决策架构**。通过引入 **OpenCode 动态代码执行环境**，系统打破了传统单体感知的硬编码限制，实现了舱内状态（人）、舱外街景（车/路/景）在算法层面的高维跨模态协同。
-<video src="./docs/Car.mp4" width="100%" controls autoplay muted></video>
+📺 [点击此处下载观看：智能座舱街景理解系统演示视频](https://github.com/zhangyuxuan0306-gif/Car-agent/raw/main/docs/Car.mp4)
 🚀 核心功能与多智能体协作机制 (Core Features & Multi-Agent Collaboration)
 
 本系统打破了传统单体系统的感知瓶颈，采用基于大模型的多智能体（Multi-Agent）协同架构。通过引入 OpenCode 智能代码执行环境，各 Agent 能够动态生成并运行代码，打通了舱内“人眼/手势”行为感知与舱外“实时街景”目标检测的物理边界，实现了真正意义上的“人-车-路-景”多模态智能协同交互。
