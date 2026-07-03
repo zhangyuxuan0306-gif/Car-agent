@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "细分工况鲁棒性压力测试集",
+    "version": "1.0",
+    "description": "高速巡航（>80km/h）与夜间弱光商圈两组极端子测试集，验证工业级泛化鲁棒性"
+  },
+  "scenarios": [
+    {
+      "id": "S1_high_speed_cruise",
+      "label": "S1 高速巡航",
+      "description": "车速 >80 km/h 侧窗采集，OpenCode 时空校准 + 后台静默感知 + 缓存",
+      "conditions": {
+        "speed_kmh_min": 80,
+        "lighting": "daylight",
+        "scene": "highway_cbd",
+        "challenge": "运动模糊 + 时空错位 + 缓存失效 + OpenCode 时空校准"
+      },
+      "cases": [
+        {
+          "building": "中国尊",
+          "question": "多高",
+          "keywords": ["528", "米"],
+          "speed_kmh": 95,
+          "lighting": "daylight",
+          "scene": "highway_cbd",
+          "note": "OpenCode 时空校准 + 后台静默感知 + 缓存"
+        },
+        {
+          "building": "中央电视台总部大楼",
+          "question": "这是什么",
+          "keywords": ["央视", "总部"],
+          "speed_kmh_min": 80,
+          "lighting": "daylight",
+          "scene": "highway_cbd",
+          "note": "运动模糊 + 时空校准 + 侧窗采集"
+        },
+        {
+          "building": "国贸三期A座",
+          "question": "多高",
+          "keywords": ["330", "米"],
+          "speed_kmh": 85,
+          "lighting": "daylight",
+          "scene": "highway_cbd",
+          "note": "OpenCode 时空校准 + 后台静默感知"
+        }
+      ]
+    },
+    {
+      "id": "S2_night_lowlight_cbd",
+      "label": "S2 夜间弱光商圈",
+      "description": "夜间弱光 + 霓虹混光，国贸/三里屯典型商圈多目标密集场景",
+      "conditions": {
+        "speed_kmh_max": 40,
+        "lighting": "night_lowlight",
+        "scene": "cbd_commercial",
+        "challenge": "低信噪比 + 霓虹混光 + 多目标遮挡 + 弱光泛化鲁棒性"
+      },
+      "cases": [
+        {
+          "building": "三星大厦",
+          "question": "是什么",
+          "keywords": ["三星", "总部"],
+          "speed_kmh": 28,
+          "lighting": "night_lowlight",
+          "scene": "cbd_commercial",
+          "note": "低信噪比 + 霓虹混光 + 多目标遮挡"
+        },
+        {
+          "building": "中央公园广场",
+          "question": "在哪",
+          "keywords": ["CBD", "朝阳"],
+          "speed_kmh": 35,
+          "lighting": "night_lowlight",
+          "scene": "cbd_commercial",
+          "note": "弱光 + 霓虹 + 多目标遮挡 + Critic 质检"
+        },
+        {
+          "building": "中国尊",
+          "question": "多高",
+          "keywords": ["528", "米"],
+          "speed_kmh": 82,
+          "lighting": "night_lowlight",
+          "scene": "cbd_commercial",
+          "note": "弱光泛化 + Critic 质检 + RAG 兜底"
+        }
+      ]
+    }
+  ]
+}

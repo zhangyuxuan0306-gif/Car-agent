@@ -144,6 +144,110 @@ def simulate_latency(base_ms: float, jitter_ms: float, rng: random.Random) -> fl
     return round(max(5.0, rng.gauss(base_ms, jitter_ms * 0.35)), 2)
 
 
+# ── 细分工况压力测试画像（高速巡航 / 夜间弱光商圈） ─────────────────────────
+
+STRESS_SCENARIOS: Dict[str, Dict[str, Any]] = {
+    "S1_high_speed_cruise": {
+        "label": "S1 高速巡航",
+        "description": "车速 >80 km/h，侧窗街景高动态采集（国贸 CBD 快速路）",
+        "conditions": {
+            "speed_kmh_min": 80,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "challenge": "运动模糊、时空错位、场景快速切换",
+        },
+        "methods": {
+            "C0_multi_agent": {
+                "label": "C0 多智能体完整系统",
+                "latency_base_ms": 102.0,
+                "latency_jitter_ms": 18.0,
+                "cache_hit_rate": 0.76,
+                "system_success_rate": 0.88,
+                "spatial_align_rate": 0.91,
+                "detection_recall": 0.86,
+                "keyword_recall_factor": 0.95,
+            },
+            "C1_monolithic": {
+                "label": "C1 单体 Pipeline",
+                "latency_base_ms": 780.0,
+                "latency_jitter_ms": 120.0,
+                "cache_hit_rate": 0.0,
+                "system_success_rate": 0.58,
+                "spatial_align_rate": 0.52,
+                "detection_recall": 0.61,
+                "keyword_recall_factor": 0.68,
+            },
+        },
+    },
+    "S2_night_lowlight_cbd": {
+        "label": "S2 夜间弱光商圈",
+        "description": "夜间弱光 + 霓虹混光，国贸/三里屯典型商圈多目标密集场景",
+        "conditions": {
+            "speed_kmh_max": 40,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "challenge": "低信噪比、光晕反射、多目标遮挡",
+        },
+        "methods": {
+            "C0_multi_agent": {
+                "label": "C0 多智能体完整系统",
+                "latency_base_ms": 94.0,
+                "latency_jitter_ms": 16.0,
+                "cache_hit_rate": 0.82,
+                "system_success_rate": 0.86,
+                "spatial_align_rate": 0.88,
+                "detection_recall": 0.83,
+                "keyword_recall_factor": 0.92,
+            },
+            "C1_monolithic": {
+                "label": "C1 单体 Pipeline",
+                "latency_base_ms": 820.0,
+                "latency_jitter_ms": 145.0,
+                "cache_hit_rate": 0.0,
+                "system_success_rate": 0.54,
+                "spatial_align_rate": 0.48,
+                "detection_recall": 0.55,
+                "keyword_recall_factor": 0.62,
+            },
+        },
+    },
+}
+
+
+def stress_summary(records: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """细分工况压力测试汇总（含空间对齐与检测召回）"""
+    base = multi_agent_summary(records)
+    if not records:
+        return base
+    aligns = [r.get("spatial_align_rate", 0.0) for r in records]
+    dets = [r.get("detection_recall", 0.0) for r in records]
+    base["avg_spatial_align_rate"] = round(statistics.mean(aligns), 3)
+    base["avg_detection_recall"] = round(statistics.mean(dets), 3)
+    return base
+
+
+def simulate_stress_records(
+    profile: Dict[str, Any],
+    base_recalls: List[float],
+    rng: random.Random,
+) -> List[Dict[str, Any]]:
+    """按工况画像生成压力测试用例指标"""
+    records = simulate_variant_records(profile, base_recalls, rng)
+    for r in records:
+        r["spatial_align_rate"] = round(
+            min(1.0, max(0.0, profile.get("spatial_align_rate", 0.85) + rng.uniform(-0.05, 0.05))),
+            3,
+        )
+        r["detection_recall"] = round(
+            min(1.0, max(0.0, profile.get("detection_recall", 0.80) + rng.uniform(-0.04, 0.04))),
+            3,
+        )
+        if not r["success"]:
+            r["spatial_align_rate"] = round(r["spatial_align_rate"] * 0.6, 3)
+            r["detection_recall"] = round(r["detection_recall"] * 0.7, 3)
+    return records
+
+
 def simulate_variant_records(
     profile: Dict[str, Any],
     base_recalls: List[float],

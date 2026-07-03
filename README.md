@@ -115,7 +115,8 @@ car-agent/
 │   └── knowledge/buildings.json
 ├── experiments/               # 多智能体定量评估（见 experiments/README.md）
 │   ├── run_all.py
-│   └── benchmarks/qa.json
+│   ├── benchmarks/qa.json
+│   └── stress_tests/          # 细分工况鲁棒性压力测试（S1 高速 / S2 夜间弱光）
 └── src/
     ├── agents/                # Master / Vision / RAG / Writer / Critic
     ├── video/cockpit_agent_video.py
@@ -129,7 +130,8 @@ car-agent/
 
 - `comparison_multi_agent.json` — 多智能体 vs 基线方案对比
 - `ablation_multi_agent.json` — A0~A3 消融实验
-- `REPORT.md` — 全中文报告（含 Rich 表格，可直接引用至技术报告）
+- `stress_robustness.json` — S1 高速巡航 / S2 夜间弱光商圈压力测试
+- `REPORT.md` — 全中文报告（含 3.1~3.3 节 Rich 表格，可直接引用至技术报告）
 
 详见 [experiments/README.md](experiments/README.md)。
 

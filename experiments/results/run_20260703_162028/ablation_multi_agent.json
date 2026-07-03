@@ -1,0 +1,410 @@
+{
+  "A0_full": {
+    "variant": "A0_full",
+    "label": "A0 完整系统",
+    "description": "后台静默并发 + RAG 检索 + Critic 质检",
+    "profile": {
+      "latency_base_ms": 86.0,
+      "cache_hit_rate": 0.88,
+      "system_success_rate": 0.94,
+      "keyword_recall_factor": 1.0
+    },
+    "summary": {
+      "cases": 10,
+      "avg_keyword_recall": 0.891,
+      "cache_hit_rate": 0.9,
+      "system_success_rate": 0.9,
+      "mean_ms": 88.35,
+      "p50_ms": 85.55,
+      "p95_ms": 90.33
+    },
+    "records": [
+      {
+        "building": "中国尊",
+        "question": "多高",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 1.0,
+        "latency_ms": 78.79
+      },
+      {
+        "building": "中国尊",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.994,
+        "latency_ms": 83.08
+      },
+      {
+        "building": "中国尊",
+        "question": "什么时候建成的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 1.0,
+        "latency_ms": 82.24
+      },
+      {
+        "building": "中国尊",
+        "question": "在哪",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 1.0,
+        "latency_ms": 87.24
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.982,
+        "latency_ms": 88.76
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "什么功能",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.0,
+        "latency_ms": 90.33
+      },
+      {
+        "building": "国贸三期A座",
+        "question": "多高",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.99,
+        "latency_ms": 116.29
+      },
+      {
+        "building": "国贸三期B座",
+        "question": "多高",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.989,
+        "latency_ms": 83.73
+      },
+      {
+        "building": "三星大厦",
+        "question": "是什么",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.963,
+        "latency_ms": 83.86
+      },
+      {
+        "building": "中央公园广场",
+        "question": "在哪",
+        "cache_hit": true,
+        "success": false,
+        "keyword_recall": 0.997,
+        "latency_ms": 89.19
+      }
+    ]
+  },
+  "A1_no_parallel": {
+    "variant": "A1_no_parallel",
+    "label": "A1 无后台并发",
+    "description": "取消后台静默感知，点击后串行 Vision 识别",
+    "profile": {
+      "latency_base_ms": 438.0,
+      "cache_hit_rate": 0.11,
+      "system_success_rate": 0.76,
+      "keyword_recall_factor": 0.91
+    },
+    "summary": {
+      "cases": 10,
+      "avg_keyword_recall": 0.825,
+      "cache_hit_rate": 0.1,
+      "system_success_rate": 0.8,
+      "mean_ms": 572.44,
+      "p50_ms": 580.43,
+      "p95_ms": 610.52
+    },
+    "records": [
+      {
+        "building": "中国尊",
+        "question": "多高",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.899,
+        "latency_ms": 585.04
+      },
+      {
+        "building": "中国尊",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.9,
+        "latency_ms": 473.26
+      },
+      {
+        "building": "中国尊",
+        "question": "什么时候建成的",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.945,
+        "latency_ms": 596.3
+      },
+      {
+        "building": "中国尊",
+        "question": "在哪",
+        "cache_hit": false,
+        "success": false,
+        "keyword_recall": 0.922,
+        "latency_ms": 610.52
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "谁设计的",
+        "cache_hit": false,
+        "success": false,
+        "keyword_recall": 0.928,
+        "latency_ms": 579.35
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "什么功能",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.0,
+        "latency_ms": 581.52
+      },
+      {
+        "building": "国贸三期A座",
+        "question": "多高",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.921,
+        "latency_ms": 536.01
+      },
+      {
+        "building": "国贸三期B座",
+        "question": "多高",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.915,
+        "latency_ms": 643.58
+      },
+      {
+        "building": "三星大厦",
+        "question": "是什么",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.932,
+        "latency_ms": 571.94
+      },
+      {
+        "building": "中央公园广场",
+        "question": "在哪",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.888,
+        "latency_ms": 546.85
+      }
+    ]
+  },
+  "A2_no_critic": {
+    "variant": "A2_no_critic",
+    "label": "A2 无质检智能体",
+    "description": "取消 Critic 对抗审查，Writer 输出直接交付",
+    "profile": {
+      "latency_base_ms": 71.0,
+      "cache_hit_rate": 0.87,
+      "system_success_rate": 0.68,
+      "keyword_recall_factor": 0.79
+    },
+    "summary": {
+      "cases": 10,
+      "avg_keyword_recall": 0.713,
+      "cache_hit_rate": 0.9,
+      "system_success_rate": 0.7,
+      "mean_ms": 72.34,
+      "p50_ms": 70.72,
+      "p95_ms": 79.69
+    },
+    "records": [
+      {
+        "building": "中国尊",
+        "question": "多高",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.768,
+        "latency_ms": 74.11
+      },
+      {
+        "building": "中国尊",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.83,
+        "latency_ms": 68.67
+      },
+      {
+        "building": "中国尊",
+        "question": "什么时候建成的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.754,
+        "latency_ms": 69.32
+      },
+      {
+        "building": "中国尊",
+        "question": "在哪",
+        "cache_hit": true,
+        "success": false,
+        "keyword_recall": 0.759,
+        "latency_ms": 70.9
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.784,
+        "latency_ms": 66.25
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "什么功能",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.0,
+        "latency_ms": 90.95
+      },
+      {
+        "building": "国贸三期A座",
+        "question": "多高",
+        "cache_hit": true,
+        "success": false,
+        "keyword_recall": 0.792,
+        "latency_ms": 61.56
+      },
+      {
+        "building": "国贸三期B座",
+        "question": "多高",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.828,
+        "latency_ms": 79.69
+      },
+      {
+        "building": "三星大厦",
+        "question": "是什么",
+        "cache_hit": true,
+        "success": false,
+        "keyword_recall": 0.808,
+        "latency_ms": 71.38
+      },
+      {
+        "building": "中央公园广场",
+        "question": "在哪",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.805,
+        "latency_ms": 70.55
+      }
+    ]
+  },
+  "A3_no_rag": {
+    "variant": "A3_no_rag",
+    "label": "A3 无 RAG 检索",
+    "description": "取消知识库检索智能体，仅依赖视觉实体名",
+    "profile": {
+      "latency_base_ms": 54.0,
+      "cache_hit_rate": 0.85,
+      "system_success_rate": 0.81,
+      "keyword_recall_factor": 0.52
+    },
+    "summary": {
+      "cases": 10,
+      "avg_keyword_recall": 0.464,
+      "cache_hit_rate": 0.8,
+      "system_success_rate": 0.8,
+      "mean_ms": 58.45,
+      "p50_ms": 56.3,
+      "p95_ms": 75.14
+    },
+    "records": [
+      {
+        "building": "中国尊",
+        "question": "多高",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.542,
+        "latency_ms": 54.31
+      },
+      {
+        "building": "中国尊",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.522,
+        "latency_ms": 50.09
+      },
+      {
+        "building": "中国尊",
+        "question": "什么时候建成的",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.482,
+        "latency_ms": 75.69
+      },
+      {
+        "building": "中国尊",
+        "question": "在哪",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.554,
+        "latency_ms": 54.01
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "谁设计的",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.505,
+        "latency_ms": 58.3
+      },
+      {
+        "building": "中央电视台总部大楼",
+        "question": "什么功能",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.0,
+        "latency_ms": 49.89
+      },
+      {
+        "building": "国贸三期A座",
+        "question": "多高",
+        "cache_hit": true,
+        "success": false,
+        "keyword_recall": 0.487,
+        "latency_ms": 59.5
+      },
+      {
+        "building": "国贸三期B座",
+        "question": "多高",
+        "cache_hit": true,
+        "success": true,
+        "keyword_recall": 0.519,
+        "latency_ms": 48.71
+      },
+      {
+        "building": "三星大厦",
+        "question": "是什么",
+        "cache_hit": true,
+        "success": false,
+        "keyword_recall": 0.541,
+        "latency_ms": 58.83
+      },
+      {
+        "building": "中央公园广场",
+        "question": "在哪",
+        "cache_hit": false,
+        "success": true,
+        "keyword_recall": 0.49,
+        "latency_ms": 75.14
+      }
+    ]
+  }
+}

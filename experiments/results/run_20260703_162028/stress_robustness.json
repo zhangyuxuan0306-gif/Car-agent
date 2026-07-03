@@ -1,0 +1,252 @@
+{
+  "S1_high_speed_cruise": {
+    "scenario": "S1_high_speed_cruise",
+    "label": "S1 高速巡航",
+    "description": "车速 >80 km/h，侧窗街景高动态采集（国贸 CBD 快速路）",
+    "conditions": {
+      "speed_kmh_min": 80,
+      "lighting": "daylight",
+      "scene": "highway_cbd",
+      "challenge": "运动模糊、时空错位、场景快速切换"
+    },
+    "methods": {
+      "C0_multi_agent": {
+        "method": "C0_multi_agent",
+        "label": "C0 多智能体完整系统",
+        "summary": {
+          "cases": 3,
+          "avg_keyword_recall": 0.787,
+          "cache_hit_rate": 0.667,
+          "system_success_rate": 1.0,
+          "mean_ms": 111.9,
+          "p50_ms": 107.67,
+          "p95_ms": 107.67,
+          "avg_spatial_align_rate": 0.906,
+          "avg_detection_recall": 0.864
+        },
+        "records": [
+          {
+            "building": "中国尊",
+            "question": "多高",
+            "speed_kmh": 95,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "cache_hit": true,
+            "success": true,
+            "keyword_recall": 0.934,
+            "latency_ms": 107.67,
+            "spatial_align_rate": 0.914,
+            "detection_recall": 0.851
+          },
+          {
+            "building": "中央电视台总部大楼",
+            "question": "这是什么",
+            "speed_kmh": null,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "cache_hit": false,
+            "success": true,
+            "keyword_recall": 0.463,
+            "latency_ms": 128.92,
+            "spatial_align_rate": 0.901,
+            "detection_recall": 0.878
+          },
+          {
+            "building": "国贸三期A座",
+            "question": "多高",
+            "speed_kmh": 85,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "cache_hit": true,
+            "success": true,
+            "keyword_recall": 0.963,
+            "latency_ms": 99.12,
+            "spatial_align_rate": 0.903,
+            "detection_recall": 0.863
+          }
+        ]
+      },
+      "C1_monolithic": {
+        "method": "C1_monolithic",
+        "label": "C1 单体 Pipeline",
+        "summary": {
+          "cases": 3,
+          "avg_keyword_recall": 0.565,
+          "cache_hit_rate": 0.0,
+          "system_success_rate": 0.667,
+          "mean_ms": 1041.61,
+          "p50_ms": 1060.98,
+          "p95_ms": 1060.98,
+          "avg_spatial_align_rate": 0.43,
+          "avg_detection_recall": 0.554
+        },
+        "records": [
+          {
+            "building": "中国尊",
+            "question": "多高",
+            "speed_kmh": 95,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "cache_hit": false,
+            "success": true,
+            "keyword_recall": 0.643,
+            "latency_ms": 945.64,
+            "spatial_align_rate": 0.475,
+            "detection_recall": 0.589
+          },
+          {
+            "building": "中央电视台总部大楼",
+            "question": "这是什么",
+            "speed_kmh": null,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "cache_hit": false,
+            "success": true,
+            "keyword_recall": 0.346,
+            "latency_ms": 1060.98,
+            "spatial_align_rate": 0.52,
+            "detection_recall": 0.63
+          },
+          {
+            "building": "国贸三期A座",
+            "question": "多高",
+            "speed_kmh": 85,
+            "lighting": "daylight",
+            "scene": "highway_cbd",
+            "cache_hit": false,
+            "success": false,
+            "keyword_recall": 0.707,
+            "latency_ms": 1118.21,
+            "spatial_align_rate": 0.294,
+            "detection_recall": 0.442
+          }
+        ]
+      }
+    }
+  },
+  "S2_night_lowlight_cbd": {
+    "scenario": "S2_night_lowlight_cbd",
+    "label": "S2 夜间弱光商圈",
+    "description": "夜间弱光 + 霓虹混光，国贸/三里屯典型商圈多目标密集场景",
+    "conditions": {
+      "speed_kmh_max": 40,
+      "lighting": "night_lowlight",
+      "scene": "cbd_commercial",
+      "challenge": "低信噪比、光晕反射、多目标遮挡"
+    },
+    "methods": {
+      "C0_multi_agent": {
+        "method": "C0_multi_agent",
+        "label": "C0 多智能体完整系统",
+        "summary": {
+          "cases": 3,
+          "avg_keyword_recall": 0.926,
+          "cache_hit_rate": 0.667,
+          "system_success_rate": 1.0,
+          "mean_ms": 103.8,
+          "p50_ms": 91.66,
+          "p95_ms": 91.66,
+          "avg_spatial_align_rate": 0.886,
+          "avg_detection_recall": 0.811
+        },
+        "records": [
+          {
+            "building": "三星大厦",
+            "question": "是什么",
+            "speed_kmh": 28,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "cache_hit": false,
+            "success": true,
+            "keyword_recall": 0.955,
+            "latency_ms": 128.18,
+            "spatial_align_rate": 0.914,
+            "detection_recall": 0.808
+          },
+          {
+            "building": "中央公园广场",
+            "question": "在哪",
+            "speed_kmh": 35,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "cache_hit": true,
+            "success": true,
+            "keyword_recall": 0.905,
+            "latency_ms": 91.66,
+            "spatial_align_rate": 0.885,
+            "detection_recall": 0.825
+          },
+          {
+            "building": "中国尊",
+            "question": "多高",
+            "speed_kmh": 82,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "cache_hit": true,
+            "success": true,
+            "keyword_recall": 0.917,
+            "latency_ms": 91.55,
+            "spatial_align_rate": 0.86,
+            "detection_recall": 0.8
+          }
+        ]
+      },
+      "C1_monolithic": {
+        "method": "C1_monolithic",
+        "label": "C1 单体 Pipeline",
+        "summary": {
+          "cases": 3,
+          "avg_keyword_recall": 0.611,
+          "cache_hit_rate": 0.0,
+          "system_success_rate": 0.667,
+          "mean_ms": 1106.18,
+          "p50_ms": 1095.71,
+          "p95_ms": 1095.71,
+          "avg_spatial_align_rate": 0.409,
+          "avg_detection_recall": 0.494
+        },
+        "records": [
+          {
+            "building": "三星大厦",
+            "question": "是什么",
+            "speed_kmh": 28,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "cache_hit": false,
+            "success": false,
+            "keyword_recall": 0.612,
+            "latency_ms": 1133.03,
+            "spatial_align_rate": 0.274,
+            "detection_recall": 0.374
+          },
+          {
+            "building": "中央公园广场",
+            "question": "在哪",
+            "speed_kmh": 35,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "cache_hit": false,
+            "success": true,
+            "keyword_recall": 0.584,
+            "latency_ms": 1095.71,
+            "spatial_align_rate": 0.443,
+            "detection_recall": 0.558
+          },
+          {
+            "building": "中国尊",
+            "question": "多高",
+            "speed_kmh": 82,
+            "lighting": "night_lowlight",
+            "scene": "cbd_commercial",
+            "cache_hit": false,
+            "success": true,
+            "keyword_recall": 0.636,
+            "latency_ms": 1089.8,
+            "spatial_align_rate": 0.509,
+            "detection_recall": 0.55
+          }
+        ]
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ def main():
     parser = argparse.ArgumentParser(description="运行全部实验")
     parser.add_argument("--skip-comparison", action="store_true")
     parser.add_argument("--skip-ablation", action="store_true")
+    parser.add_argument("--skip-stress", action="store_true")
     args = parser.parse_args()
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -27,6 +28,8 @@ def main():
         subprocess.check_call([py, os.path.join(ROOT, "experiments", "run_comparison.py"), "--out", out_dir])
     if not args.skip_ablation:
         subprocess.check_call([py, os.path.join(ROOT, "experiments", "run_ablation.py"), "--out", out_dir])
+    if not args.skip_stress:
+        subprocess.check_call([py, os.path.join(ROOT, "experiments", "stress_tests", "run_stress.py"), "--out", out_dir])
 
     subprocess.check_call([py, os.path.join(ROOT, "experiments", "report.py"), out_dir])
     print(f"\n=== 全部实验完成 ===\n结果与报告: {out_dir}/REPORT.md")
